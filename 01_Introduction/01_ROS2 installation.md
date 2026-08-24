@@ -1,17 +1,15 @@
 # 01. Installation of ROS2 
 
-This guide installs **ROS 2 Jazzy Jalisco** using Debian (`apt`) packages. Follow the steps in order and read the notes before running each command.
+This guide installs **ROS 2 Jazzy Jalisco** using Debian packages. Follow the steps in order and read the notes before running each command.
 
 > [!IMPORTANT]
-> These instructions are for **Ubuntu 24.04 LTS (Noble), 64-bit**, either installed directly or in a virtual machine. Do not use them unchanged on Ubuntu 22.04, Windows, WSL, Linux Mint, or another Linux distribution.
+> These instructions are for **Ubuntu 24.04 LTS (Noble), 64-bit**, either installed directly or in a virtual machine.
 
 ## What will be installed?
 
-- ROS 2 Jazzy Desktop (ROS 2, RViz, demos, and tutorials)
-- ROS development tools such as `colcon` and `rosdep`
-- The official ROS 2 software repository
+- ROS 2 Jazzy Desktop 
+- ROS development tools 
 
-Allow approximately **16 to 32 GB of free disk space** and use a stable internet connection.
 
 ## Before you begin
 
@@ -110,7 +108,7 @@ Confirm that Ubuntu can find the Jazzy desktop package:
 apt-cache policy ros-jazzy-desktop
 ```
 
-The `Candidate` line should show a version number. If it shows `(none)`, do not continue; see [Troubleshooting](#troubleshooting).
+The `Candidate` line should show a version number. If it shows `(none)`, do not continue; 
 
 ## 4. Install ROS 2 Jazzy
 
@@ -190,44 +188,8 @@ ros2 run demo_nodes_py listener
 
 It should print `I heard: [Hello World: ...]`. This confirms that ROS 2 nodes can communicate. Press <kbd>Ctrl</kbd> + <kbd>C</kbd> in each terminal to stop the programs.
 
-### Optional graphical test
-
-Run the turtlesim example:
-
-```bash
-ros2 run turtlesim turtlesim_node
-```
-
-A window containing a turtle should open. In a second terminal, start keyboard control:
-
-```bash
-ros2 run turtlesim turtle_teleop_key
-```
-
-Keep the second terminal selected and use the arrow keys to move the turtle. Press <kbd>Ctrl</kbd> + <kbd>C</kbd> in both terminals when finished.
-
 ## Troubleshooting
 
-### `ros2: command not found`
-
-Source the setup file and try again:
-
-```bash
-source /opt/ros/jazzy/setup.bash
-```
-
-Then confirm that the installation directory exists with `ls /opt/ros/jazzy`.
-
-### `Unable to locate package ros-jazzy-desktop`
-
-Confirm that Ubuntu reports `24.04` and `noble`, then repeat [Step 3](#3-enable-the-required-repositories), including the `sudo dpkg -i` and final `sudo apt update` commands.
-
-### The talker and listener cannot communicate
-
-- Confirm that both terminals use the same computer or virtual machine.
-- Run `printenv ROS_DISTRO` in both terminals; each should print `jazzy`.
-- Stop both nodes, open fresh terminals, and repeat the test.
-- A VPN or restrictive firewall can interfere with ROS 2 discovery; disconnect the VPN if course policy permits.
 
 ### Package installation was interrupted
 
@@ -239,9 +201,6 @@ sudo apt --fix-broken install
 sudo apt update
 ```
 
-### No turtlesim window appears in a virtual machine
-
-Make sure the virtual machine has a desktop environment and graphical acceleration enabled. ROS 2 may still be correctly installed if the talker/listener test succeeds.
 
 ## Installation checklist
 
@@ -254,4 +213,3 @@ Make sure the virtual machine has a desktop environment and graphical accelerati
 
 ## Reference
 
-These notes follow the official [ROS 2 Jazzy installation guide for Ubuntu Debian packages](https://docs.ros.org/en/jazzy/Installation/Ubuntu-Install-Debs.html). Consult the official guide if the repository setup changes in the future.
