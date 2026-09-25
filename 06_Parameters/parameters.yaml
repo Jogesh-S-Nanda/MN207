@@ -1,0 +1,4 @@
+/node:
+  ros__parameters:
+    number: 5
+    timer_call: 3.0
