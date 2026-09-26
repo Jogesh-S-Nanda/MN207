@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.ros.org/xmlns/package_format3"?>
+<package format="3">
+  <name>turtle_room_env</name>
+  <version>0.1.0</version>
+  <description>Multi-room expanded simulator for ROS 2 path planning teaching</description>
+  <maintainer email="student@todo.todo">ROS 2 Student</maintainer>
+  <license>Apache-2.0</license>
+
+  <depend>rclpy</depend>
+  <depend>geometry_msgs</depend>
+  <depend>turtlesim</depend>
+  <depend>nav_msgs</depend>
+  <depend>std_msgs</depend>
+
+  <export>
+    <build_type>ament_python</build_type>
+  </export>
+</package>
