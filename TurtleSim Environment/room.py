@@ -108,7 +108,7 @@ class RoomSimulatorNode(Node):
         return True
 
     def update_loop(self):
-        rclpy.spin_some(self)
+        rclpy.spin_once(self, timeout_sec=0)
 
         now = self.get_clock().now()
         dt = (now - self.last_time).nanoseconds / 1e9
