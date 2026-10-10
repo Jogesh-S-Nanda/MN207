@@ -1,5 +1,23 @@
 
 """
+========================================================================================
+    Code for Dijkstra's algorithm for mobile robot path planning
+========================================================================================
+    Author: Jogesh S Nanda
+    Created: 10/10/2026
+    Modified: 10/10/2026    (by Jogesh S Nanda)
+========================================================================================
+    Code created for class of MN207 (by Robotics Innovations Lab,
+        Department of Design and Manufacturing, IISc).
+
+    version : Python 3, NumPy, Matplotlib
+
+Purpose:
+    To find and visualize the shortest collision-free path on an occupancy grid
+========================================================================================
+"""
+
+"""
 DIJKSTRA'S ALGORITHM FOR MOBILE ROBOT PATH PLANNING
 =================================================
 
@@ -121,16 +139,18 @@ def print_matrices(
         print()
 
 
-    # ==================================================
+# ==================================================
 # STEP 3: DIJKSTRA'S SHORTEST PATH ALGORITHM
 # ==================================================
 
 class Dijkstra:
     """
-    Find and display the shortest paths on an occupancy grid.
+    Find and display shortest paths on an occupancy grid.
 
-    The grid, start and goal are provided by each example so the
-    same planner can be reused with multiple maps.
+    The grid, start and goal are provided by each example, so this
+    planner can be reused with multiple maps. The search expands the
+    lowest-cost unvisited cell and uses four-connected movement where
+    every horizontal or vertical step costs one grid unit.
     """
 
     @staticmethod
@@ -143,10 +163,16 @@ class Dijkstra:
         """
         Find the shortest collision-free path using Dijkstra.
 
+        The priority queue selects the cell with the lowest known cost
+        from the start. Each time a cheaper route to a neighbor is found,
+        its distance and parent are updated. When the goal is finalized,
+        the parent matrix is used to rebuild the path.
+
         Parameters
         ----------
         occupancy_grid : np.ndarray
-            2D map containing free and occupied cells.
+            2D map where 0 is free. Nonzero values, including obstacles
+            and unknown cells, are treated as blocked.
 
         start : tuple[int, int]
             Robot starting position (row, column).
@@ -155,7 +181,8 @@ class Dijkstra:
             Robot goal position (row, column).
 
         verbose : bool
-            If True, print matrices after each iteration.
+            If True, print the distance, visited and parent matrices
+            after each iteration.
 
         Returns
         -------
@@ -323,8 +350,13 @@ class Dijkstra:
                 )
 
         # ==================================================
-        # STEP 5: CHECK IF A PATH WAS FOUND
+        # STEP 4: CHECK IF A PATH WAS FOUND
         # ==================================================
+
+        # Keep the final distance matrix for the path plot. Each free cell
+        # will display its lowest known cost g from the start; cells that
+        # were not reached keep an infinite cost.
+        Dijkstra.last_cost_map = distance.copy()
 
         if not visited[goal]:
 
@@ -332,7 +364,7 @@ class Dijkstra:
             return None, math.inf
 
         # ==================================================
-        # STEP 6: RECONSTRUCT OPTIMAL PATH
+        # STEP 5: RECONSTRUCT OPTIMAL PATH
         # ==================================================
 
         path: list[Cell] = []
@@ -352,7 +384,7 @@ class Dijkstra:
 
 
 # ==================================================
-# STEP 4: VISUALIZE THE SHORTEST PATH
+# STEP 6: VISUALIZE THE SHORTEST PATH
 # ==================================================
 
 def visualize_path(
@@ -362,16 +394,18 @@ def visualize_path(
     goal: Cell
 ) -> None:
     """
-    Display obstacles, robot start, goal and
-    Dijkstra's shortest path.
+    Display obstacles, start, goal, cell costs and Dijkstra's path.
+
+    Each free cell is labeled with its lowest known cost g from start.
+    Unreached free cells show inf, while occupied and unknown cells show X.
     """
 
     rows, cols = occupancy_grid.shape
 
     fig, ax = plt.subplots(figsize=(7, 7))
 
-    # Create a numerical visualization map:
-    # 0 = free, 1 = obstacle
+    # Convert all occupied or unknown cells to 1 for display:
+    # 0 = free cell, 1 = blocked cell.
     display_map = (occupancy_grid != 0).astype(int)
 
     ax.imshow(
@@ -382,7 +416,7 @@ def visualize_path(
         origin="upper"
     )
 
-    # Draw grid lines
+    # Draw grid lines at cell boundaries.
     ax.set_xticks(
         np.arange(-0.5, cols, 1),
         minor=True
@@ -398,7 +432,7 @@ def visualize_path(
         linewidth=0.8
     )
 
-    # Plot final shortest path
+    # Plot the final route from start to goal.
     if path:
 
         path_rows = [cell[0] for cell in path]
@@ -433,29 +467,35 @@ def visualize_path(
         zorder=5
     )
 
-    # Add labels for each grid cell
+    # Show the Dijkstra cost at every free cell instead of its coordinates.
+    cost_map = getattr(Dijkstra, "last_cost_map", None)
     for r in range(rows):
         for c in range(cols):
 
             if occupancy_grid[r, c] != 0:
                 label = "X"
                 text_color = "white"
+            elif cost_map is None:
+                label = "--"
+                text_color = "black"
+            elif np.isinf(cost_map[r, c]):
+                label = "inf"
+                text_color = "black"
             else:
-                label = f"({r},{c})"
+                label = f"{cost_map[r, c]:g}"
                 text_color = "black"
 
-            # Avoid drawing labels over start/goal
-            if (r, c) not in (start, goal):
-                ax.text(
-                    c, r, label,
-                    ha="center",
-                    va="center",
-                    fontsize=9,
-                    color=text_color
-                )
+            ax.text(
+                c, r, label,
+                ha="center",
+                va="center",
+                fontsize=8,
+                color=text_color,
+                zorder=6
+            )
 
     ax.set_title(
-        "Dijkstra Path Planning - Occupancy Grid",
+        "Dijkstra Path Planning - g Cost per Cell",
         fontsize=14
     )
 
