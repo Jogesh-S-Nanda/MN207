@@ -1,11 +1,16 @@
-# ROS 2 Jazzy Data Types for Mobile Robotics
+﻿# ROS 2 Jazzy Data Types for Mobile Robotics
+
+**Author:** Jogesh S Nanda, Robotics Innovation Lab (RIL), IISc  
+**Purpose:** MN207 lab session  
+**Copyright:** © Robotics Innovation Lab (RIL), IISc
+
 
 This reference covers **all built-in ROS 2 Jazzy field types** and the standard
 messages, services, and actions most relevant to mobile robots.
 
-> ROS 2 has thousands of application-specific interfaces. Here, “all data
-> types” means every built-in field type plus commonly used standard robotics
-> interfaces—not every type supplied by every hardware driver.
+> ROS 2 has thousands of application-specific interfaces. Here, â€œall data
+> typesâ€ means every built-in field type plus commonly used standard robotics
+> interfacesâ€”not every type supplied by every hardware driver.
 
 ## 1. ROS 2 Interface Kinds
 

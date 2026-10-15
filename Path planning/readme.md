@@ -1,28 +1,24 @@
-# Mobile Robot Path Planning
+﻿# Mobile Robot Path Planning
 
 Educational examples for learning and comparing four path-planning algorithms on 2D occupancy grids. Each example defines its own map, start, goal, and cell resolution, then calls the reusable planner classes in `methods`.
 
-## Author and copyright
-
-**Author:** Jogesh S Nanda  
-**Course:** MN207  
-**Organization:** Robotics Innovations Lab (RIL), Department of Design and Manufacturing, Indian Institute of Science (IISc)
-
-Copyright © 2026 Robotics Innovations Lab (RIL), Department of Design and Manufacturing, Indian Institute of Science (IISc). Prepared for student learning in MN207.
+**Author:** Jogesh S Nanda, Robotics Innovation Lab (RIL), IISc  
+**Purpose:** MN207 lab session  
+**Copyright:** © Robotics Innovation Lab (RIL), IISc
 
 ## Folder contents
 
 ```text
 Path planning/
-├── methods/
-│   ├── dijistra.py   # Dijkstra's algorithm
-│   ├── Astar.py      # A* search
-│   ├── RRT.py        # Rapidly-exploring Random Tree
-│   └── RRTstar.py    # RRT* with parent selection and rewiring
-├── Example 01.py    # Small map for getting started
-├── Example 02.py    # Medium map with more obstacles
-├── Example 03.py    # Larger map for comparing the planners
-└── readme.md
+â”œâ”€â”€ methods/
+â”‚   â”œâ”€â”€ dijistra.py   # Dijkstra's algorithm
+â”‚   â”œâ”€â”€ Astar.py      # A* search
+â”‚   â”œâ”€â”€ RRT.py        # Rapidly-exploring Random Tree
+â”‚   â””â”€â”€ RRTstar.py    # RRT* with parent selection and rewiring
+â”œâ”€â”€ Example 01.py    # Small map for getting started
+â”œâ”€â”€ Example 02.py    # Medium map with more obstacles
+â”œâ”€â”€ Example 03.py    # Larger map for comparing the planners
+â””â”€â”€ readme.md
 ```
 
 The files in `methods` contain reusable planner classes. The examples contain the maps and show how to call each planner. This keeps map design separate from the algorithm implementation, so you can try new maps without editing the planners.

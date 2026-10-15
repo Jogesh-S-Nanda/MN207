@@ -1,4 +1,9 @@
-# Basic Linux Commands
+﻿# Basic Linux Commands
+
+**Author:** Jogesh S Nanda, Robotics Innovation Lab (RIL), IISc  
+**Purpose:** MN207 lab session  
+**Copyright:** © Robotics Innovation Lab (RIL), IISc
+
 
 This guide contains the Linux terminal commands most frequently used while learning ROS 2. Try the examples in a terminal, but read each command before pressing <kbd>Enter</kbd>.
 

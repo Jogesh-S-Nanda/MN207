@@ -1,4 +1,9 @@
-# 01. Installation of ROS2 
+﻿# 01. Installation of ROS2 
+
+**Author:** Jogesh S Nanda, Robotics Innovation Lab (RIL), IISc  
+**Purpose:** MN207 lab session  
+**Copyright:** © Robotics Innovation Lab (RIL), IISc
+
 
 This guide installs **ROS 2 Jazzy Jalisco** using Debian packages. Follow the steps in order and read the notes before running each command.
 
