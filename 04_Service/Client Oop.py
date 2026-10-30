@@ -3,8 +3,8 @@
     Template for creating a node
 ========================================================================================
     Author: Jogesh S Nanda
-    Created: 04/05/2020
-    Modified: 04/05/2020    (by Jogesh S Nanda)
+    Created: 04/10/2026
+    Modified: 04/10/2026    (by Jogesh S Nanda)
 ========================================================================================
     Code created for class of MN207, ROS2 session (by Robotics Innovations Lab,
         Department of Design and Manufacturing, IISc).
@@ -32,15 +32,20 @@ class MyCustomNode(Node):   # MODIFY NODE
         """
             definition of node name: should be unique.
         """
-        super().__init__('node name')   # MODIFY NAME
+        super().__init__('add_two_ints_oop_client')
         # adding a service client
-        self.client = self.create_client(AddTwoInts, 'add_two_ints')
+        self.client = self.create_client(AddTwoInts, '/add_two_ints')
 
 
     def wait_service(self, a, b):
-
-        while self.client.wait_for_service(timeout_sec=1.0):
-            self.get_logger().warn("Service available, waiting for result")
+        """
+        Wait for service
+        :param a:
+        :param b:
+        :return:
+        """
+        while not self.client.wait_for_service(timeout_sec=1.0):
+            self.get_logger().warning("Service not available; waiting...")
 
         req = AddTwoInts.Request()
         req.a = a
@@ -49,9 +54,19 @@ class MyCustomNode(Node):   # MODIFY NODE
         future = self.client.call_async(req)
         future.add_done_callback(self.callback)
 
+
     def callback(self, future):
-        resp = future.result()
-        self.get_logger().info(str(resp.sum))
+        """
+            callback function
+        :param future:
+        :return:
+        """
+        error = future.exception()
+        if error is not None:
+            self.get_logger().error(f"Service call failed: {error}")
+            return
+        response = future.result()
+        self.get_logger().info(f"Sum: {response.sum}")
 
 
 
@@ -70,12 +85,18 @@ def main(args=None):
     node.wait_service(2, 5)
     node.wait_service(4, 8)
 
-    # run the node till exit
-    rclpy.spin(node)
+    try:
+        rclpy.spin(node)
+    except KeyboardInterrupt:
+        pass
 
-    # clean exit
-    node.destroy_node()
-    rclpy.shutdown()
+    finally:
+        # killing the node
+        node.destroy_node()
+
+        if rclpy.ok():
+            # clean shutdown
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':

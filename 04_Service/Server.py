@@ -3,8 +3,8 @@
     Template for creating a node
 ========================================================================================
     Author: Jogesh S Nanda
-    Created: 04/05/2020
-    Modified: 04/05/2020    (by Jogesh S Nanda)
+    Created: 04/10/2026
+    Modified: 04/10/2026    (by Jogesh S Nanda)
 ========================================================================================
     Code created for class of MN207, ROS2 session (by Robotics Innovations Lab,
         Department of Design and Manufacturing, IISc).
@@ -32,16 +32,25 @@ class MyServerNode(Node):
         """
             definition of node name: should be unique.
         """
-        super().__init__('node name')   # MODIFY NAME
+        super().__init__('add_two_ints_server')
 
         # creating a service server
-        self.server_ = self.create_service(AddTwoInts, 'led_indicator', self.callback_service)
-        self.get_logger().info("service created")
+        self.server_ = self.create_service(
+            AddTwoInts, 'add_two_ints', self.callback_service
+        )
+        self.get_logger().info("Service '/add_two_ints' is ready")
+
 
     def callback_service(self, request: AddTwoInts.Request, response: AddTwoInts.Response):
-        sum = request.a + request.b
-        response.sum = sum
-        self.get_logger().info(f"sum = {sum}")
+        """
+            callback function
+        :param request:
+        :param response:
+        :return:
+        """
+        result = request.a + request.b
+        response.sum = result
+        self.get_logger().info(f"{request.a} + {request.b} = {result}")
         return response
 
 
@@ -56,12 +65,20 @@ def main(args=None):
 
     # initialize the node
     node = MyServerNode()
-    # run the node till exit
-    rclpy.spin(node)
 
-    # clean exit
-    node.destroy_node()
-    rclpy.shutdown()
+    try:
+        rclpy.spin(node)
+
+    except KeyboardInterrupt:
+        pass
+
+    finally:
+        # killing the node
+        node.destroy_node()
+
+        if rclpy.ok():
+            # clean shutdown
+            rclpy.shutdown()
 
 
 if __name__ == '__main__':
