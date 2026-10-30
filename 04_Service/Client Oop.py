@@ -22,6 +22,7 @@ from rclpy.node import Node
 from example_interfaces.srv import AddTwoInts
 
 
+
 class MyCustomNode(Node):   # MODIFY NODE
     """
     Defining a custom node using class function

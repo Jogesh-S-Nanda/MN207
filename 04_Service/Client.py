@@ -23,7 +23,6 @@ from example_interfaces.srv import AddTwoInts
 
 
 
-
 def main(args=None):
     """
         entry point of the application
