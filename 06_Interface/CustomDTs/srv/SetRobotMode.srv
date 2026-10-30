@@ -1,0 +1,6 @@
+# Request: ask the robot to change operating mode.
+uint8 mode
+---
+# Response: report whether the mode change was accepted.
+bool success
+string message

@@ -1,0 +1,12 @@
+# Goal: request that the robot drive a distance at a chosen speed.
+float32 distance_m
+float32 speed_mps
+---
+# Result: report whether the requested motion finished.
+bool success
+float32 distance_travelled_m
+string message
+---
+# Feedback: report motion progress while the goal is running.
+float32 distance_travelled_m
+float32 remaining_distance_m
